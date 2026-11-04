@@ -1,0 +1,22 @@
+{
+  "name": "claude-mods",
+  "owner": {
+    "name": "Carmel"
+  },
+  "description": "Mods for Claude Code: easier-to-skim replies and a workshop pane.",
+  "plugins": [
+    {
+      "name": "skim-colors",
+      "source": "./plugins/skim-colors",
+      "description": "Makes Claude's long replies easy to skim: the points that matter are bright and bold, the rest is quieter, and risks and decisions sit in quiet boxes."
+    },
+    {
+      "name": "workshop-launcher",
+      "source": {
+        "source": "github",
+        "repo": "chershtik/workshop-launcher"
+      },
+      "description": "One side pane for your Claude Code workshop: ideas, mods, skills, hooks and workflows to use in this session or edit in a new one."
+    }
+  ]
+}
