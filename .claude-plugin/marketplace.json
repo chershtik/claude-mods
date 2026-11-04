@@ -3,7 +3,7 @@
   "owner": {
     "name": "Carmel"
   },
-  "description": "Mods for Claude Code: easier-to-skim replies and a workshop pane.",
+  "description": "Mods for Claude Code: easier-to-skim replies and a Toolbox pane of everything you can use.",
   "plugins": [
     {
       "name": "skim-colors",
@@ -11,9 +11,9 @@
       "description": "Makes Claude's long replies easy to skim: the points that matter are bright and bold, the rest is quieter, and risks and decisions sit in quiet boxes."
     },
     {
-      "name": "workshop",
-      "source": "./plugins/workshop",
-      "description": "One side pane listing everything you can use in Claude Code (slash commands, skills, mods, hooks) with what you use most at the top, plus your ideas. Open it with /ws."
+      "name": "toolbox",
+      "source": "./plugins/toolbox",
+      "description": "A side pane listing everything you can use in Claude Code, with what you use most at the top, plus your ideas and drafts. Open it with /toolbox."
     }
   ]
 }

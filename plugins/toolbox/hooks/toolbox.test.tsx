@@ -4,11 +4,11 @@ import { addIdeaRequest, aboutSkill, editSession, ideaSession, matches, offReque
 import type { Item } from './catalog'
 
 const PANE = {
-  plugin: 'workshop',
+  plugin: 'toolbox',
   component: 'Pane',
-  requestId: 'workshop',
+  requestId: 'toolbox',
   props: {
-    title: 'Workshop',
+    title: 'Toolbox',
     isFocused: false,
     bodyColumns: 50,
     placement: 'dock',
@@ -184,8 +184,8 @@ test('with Launcher icon on, the button shows above the prompt while the pane is
     const { Box } = $.ui.resolve(e)
     return <Box />
   })
-  const ui = await $.ui.mount({ plugin: 'workshop', component: 'AbovePrompt', surface: 'desktop', props: { hasSurvey: false } })
-  expect(await ui.find({ key: 'open-workshop' })).toBeTruthy()
+  const ui = await $.ui.mount({ plugin: 'toolbox', component: 'AbovePrompt', surface: 'desktop', props: { hasSurvey: false } })
+  expect(await ui.find({ key: 'open-toolbox' })).toBeTruthy()
   await ui.unmount()
 })
 
@@ -194,8 +194,8 @@ test('another mod in the band keeps its drawing, with the launcher icon beside i
     const { Text } = $.ui.resolve(e)
     return <Text>other mod</Text>
   })
-  const ui = await $.ui.mount({ plugin: 'workshop', component: 'AbovePrompt', surface: 'desktop', props: { hasSurvey: false } })
-  expect(await ui.find({ key: 'open-workshop' })).toBeTruthy()
+  const ui = await $.ui.mount({ plugin: 'toolbox', component: 'AbovePrompt', surface: 'desktop', props: { hasSurvey: false } })
+  expect(await ui.find({ key: 'open-toolbox' })).toBeTruthy()
   expect(await ui.find({ type: 'Text', text: /^other mod$/ })).toBeTruthy()
   await ui.unmount()
 })
@@ -309,13 +309,13 @@ test('by default there is no launcher icon, and another mod keeps the band to it
     const { Text } = $.ui.resolve(e)
     return <Text>other mod</Text>
   })
-  const ui = await $.ui.mount({ plugin: 'workshop', component: 'AbovePrompt', surface: 'desktop', props: { hasSurvey: false } })
-  expect(await ui.find({ key: 'open-workshop' })).toBeFalsy()
+  const ui = await $.ui.mount({ plugin: 'toolbox', component: 'AbovePrompt', surface: 'desktop', props: { hasSurvey: false } })
+  expect(await ui.find({ key: 'open-toolbox' })).toBeFalsy()
   expect(await ui.find({ type: 'Text', text: /^other mod$/ })).toBeTruthy()
   await ui.unmount()
 })
 
-test('/ws is the command, and Open at start opens the pane when a session starts', { options: { openAtStart: 'on' } }, async ($, on) => {
+test('/toolbox is the command, and Open at start opens the pane when a session starts', { options: { openAtStart: 'on' } }, async ($, on) => {
   const registered: string[] = []
   const opened: string[] = []
   machine(on, 's-start')
@@ -329,8 +329,8 @@ test('/ws is the command, and Open at start opens the pane when a session starts
     return { value: { isPlaced: true } }
   })
   await $.session.start({ cwd: 'C:/w', surface: 'desktop', isInteractive: true })
-  expect(registered).toEqual(['ws'])
-  expect(opened).toEqual(['workshop'])
+  expect(registered).toEqual(['toolbox'])
+  expect(opened).toEqual(['toolbox'])
 })
 
 test('by default the pane stays closed when a session starts', async ($, on) => {
@@ -350,7 +350,7 @@ test('pins saved in the store come back when a session starts', async ($, on) =>
   mock.store(on, { pins: 'mod:workshop:demo' })
   machine(on, 's-pin-start')
   on('session.start', (_: unknown, e: { cwd: string }) => ({ cwd: e.cwd }))
-  on('command.register', () => ({ value: { command: 'ws' } }))
+  on('command.register', () => ({ value: { command: 'toolbox' } }))
   await $.session.start({ cwd: 'C:/w', surface: 'desktop', isInteractive: true })
   const ui = await $.ui.mount({ ...PANE, surface: 'desktop' })
   await ui.press({ key: 'fold-Mods' })
@@ -362,7 +362,7 @@ test('no session is told to copy anything into the workshop', async ($, on) => {
   machine(on, 's-rule')
   on('prompt.compose', () => ({ sections: [] }))
   const { sections } = await $.prompt.compose(COMPOSE)
-  expect(sections.some(s => s.id.startsWith('workshop'))).toBe(false)
+  expect(sections.some(s => s.id.startsWith('toolbox'))).toBe(false)
 })
 
 test('the workshopDir option picks the workshop folder', { options: { workshopDir: String.raw`D:\tools\my-workshop\\` } }, async ($, on) => {

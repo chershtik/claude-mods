@@ -1,4 +1,4 @@
-# workshop (mod)
+# toolbox (mod)
 
 If you were started to edit this mod, the owner's request is your first prompt: apply it, skip the workshop's session-start triage, and keep going where the last edit stopped.
 
@@ -10,7 +10,7 @@ If you were started to edit this mod, the owner's request is your first prompt: 
 - `hooks/pane.tsx`: the pane's drawing (`drawPane`).
 
 ## What it does
-`/ws` opens one side pane. Two settings, both off by default: **Launcher icon** (a ⚒ above the prompt, hidden while the pane is open) and **Open at start**.
+`/toolbox` opens one side pane, titled Toolbox. Two settings, both off by default: **Launcher icon** (a ⚒ above the prompt, hidden while the pane is open) and **Open at start**.
 
 The pane copies the app's own sidebar so it reads as part of the app:
 - **Top**: filter box (searches names and descriptions as you type, opens every section with a match, hides the rest) and one **+** whose menu holds New idea… (idea box), Create a mod, skill, hook… (new-session request into the chat box) and Reload the list.
@@ -42,7 +42,7 @@ The pane copies the app's own sidebar so it reads as part of the app:
   - A plain Button inverts its own label under the pointer, so Description is plain text, nudged by `xs` to line up with Button labels.
   - The Description side menu is a child of the menu, not the entry, so it can sit against the menu's left edge. It shares a hover `scope` with the entry, which reveals it and keeps it open while the pointer is on either. It is 44 columns wide whatever the pane; the pane's edge clips anything past it.
   - `xs`/`sm` spacing is sized by each surface: finer than a cell on the desktop.
-- **Paths and setup**: `findPaths` in `catalog.ts` finds the workshop (the `workshopDir` option, else `CLAUDE_WORKSHOP_DIR`, else `~/claude-workshop`, created with its folders and a CLAUDE.md on first use) and the Claude folder (`CLAUDE_CONFIG_DIR`, else `~/.claude`). The owner sets `CLAUDE_WORKSHOP_DIR` in ~/.claude/settings.json. Always on works through CLAUDE_CODE_PLUGIN_DIRS. Edits need a new session to load. `/workshop` is a reserved name; the command is `/ws` (it was `/workshop-pane` before v5.0.0).
+- **Paths and setup**: `findPaths` in `catalog.ts` finds the workshop (the `workshopDir` option, else `CLAUDE_WORKSHOP_DIR`, else `~/claude-workshop`, created with its folders and a CLAUDE.md on first use) and the Claude folder (`CLAUDE_CONFIG_DIR`, else `~/.claude`). The owner sets `CLAUDE_WORKSHOP_DIR` in ~/.claude/settings.json. Always on works through CLAUDE_CODE_PLUGIN_DIRS. Edits need a new session to load. `/workshop` is a reserved name; the command is `/toolbox` (`/workshop-pane` before v5.0.0, `/ws` in v5.0.0, which drowned among fuzzy matches in the desktop's suggestions).
 - **The pane is a catalog, not a store** (owner, 2026-11-04): it lists everything you can use from wherever it lives, so you click instead of remembering a `/name`. Nothing is copied into the workshop; the workshop folder holds only ideas and drafts.
 - **Commands** come from `$.command.list()` (built-in, plugin, your own, MCP; skills are commands too), grouped Pinned, Used before (most used first), Yours, From plugins, From MCP servers, Built into Claude Code. Use is counted in `$.store` (`usage`) by a `command.run` hook, a `tool.call` hook on Skill, and by the pane itself for runs it starts (a mod's own `$.command.run` skips its own hooks).
 - **Mods running from elsewhere** (this session's mods folder, `CLAUDE_CODE_PLUGIN_DIRS`) are listed under Mods as installed.
@@ -94,3 +94,4 @@ The pane copies the app's own sidebar so it reads as part of the app:
 - 2026-11-04: v4.1.0 plugin commands grouped under one label per plugin (name and count), rows by short name.
 - 2026-11-04: v4.2.0 the ⚒ shares the band above the prompt: what other mods draw there stays, with the icon in front of it.
 - 2026-11-04: v5.0.0 moved into chershtik/claude-mods (plugins/workshop); the command is `/ws`; the ⚒ and opening at start are settings, both off by default (a slash command is the usual way in, and the band is shared).
+- 2026-11-04: v6.0.0 renamed Toolbox: plugin `toolbox`, command `/toolbox`, pane title Toolbox. The workshop folder (ideas and drafts) keeps its name.

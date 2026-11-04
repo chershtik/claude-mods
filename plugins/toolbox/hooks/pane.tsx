@@ -36,20 +36,20 @@ import { BADGE, COLOR, FILL, SECTIONS, TINT } from './look'
 // Session values; register.tsx declares the ones it uses with the same keys and shapes.
 // What is open: "menu:<key>" a row's ⋯ menu ("menu:top" the + menu), "edit:<key>" a row's edit box,
 // "new-idea" the idea box; '' for nothing.
-const editing = atom({ plugin: 'workshop', key: 'editing' } as const, '', { shape: 'editing-1' })
+const editing = atom({ plugin: 'toolbox', key: 'editing' } as const, '', { shape: 'editing-1' })
 // Section titles the person opened, comma-joined; every section starts folded shut.
-const opened = atom({ plugin: 'workshop', key: 'opened' } as const, '', { shape: 'opened-1' })
+const opened = atom({ plugin: 'toolbox', key: 'opened' } as const, '', { shape: 'opened-1' })
 // Counts finished turns (and reloads) so the pane reads the folders again.
-const turns = atom({ plugin: 'workshop', key: 'turns' } as const, 0, { shape: 'turns-1' })
+const turns = atom({ plugin: 'toolbox', key: 'turns' } as const, 0, { shape: 'turns-1' })
 // Jobs that have not finished, comma-joined; their row says Working… until then.
-const pending = atom({ plugin: 'workshop', key: 'pending' } as const, '', { shape: 'pending-1' })
+const pending = atom({ plugin: 'toolbox', key: 'pending' } as const, '', { shape: 'pending-1' })
 // The filter box's text.
-const query = atom({ plugin: 'workshop', key: 'query' } as const, '', { shape: 'query-1' })
+const query = atom({ plugin: 'toolbox', key: 'query' } as const, '', { shape: 'query-1' })
 // Skills and hooks turned on here from the pane, comma-joined item keys (mods are read from the
 // session's mods folder).
-const used = atom({ plugin: 'workshop', key: 'used' } as const, '', { shape: 'used-1' })
+const used = atom({ plugin: 'toolbox', key: 'used' } as const, '', { shape: 'used-1' })
 // Pinned item and idea keys, comma-joined; also kept in $.store so they last across sessions.
-const pins = atom({ plugin: 'workshop', key: 'pins' } as const, '', { shape: 'pins-1' })
+const pins = atom({ plugin: 'toolbox', key: 'pins' } as const, '', { shape: 'pins-1' })
 
 // A menu entry: an action, a separator line, or Description, whose text opens in a side menu.
 type Entry = { id: string; label: string; run: () => void; isDanger?: boolean } | 'sep' | { about: string }

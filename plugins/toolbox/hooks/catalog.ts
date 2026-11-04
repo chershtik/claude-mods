@@ -45,7 +45,7 @@ const README: Record<string, string> = {
 
 const WORKSHOP_NOTES = `# Claude Code Workshop
 
-A place for my Claude Code mods, skills, hooks and workflows. The workshop pane (\`/ws\`) lists your ideas and drafts from here, next to everything installed.
+A place for my Claude Code mods, skills, hooks and workflows. The Toolbox pane (\`/toolbox\`) lists your ideas and drafts from here, next to everything installed.
 
 ## Layout
 - \`mods/\`: one folder per mod (use the plugin-authoring skill).

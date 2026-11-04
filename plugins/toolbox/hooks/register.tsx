@@ -5,20 +5,20 @@ import { paths, recordUse } from './catalog'
 import type { Usage } from './catalog'
 import { drawPane } from './pane'
 
-const PANE = 'workshop'
+const PANE = 'toolbox'
 // The command that opens the pane: short, since people type it.
-export const COMMAND = 'ws'
+export const COMMAND = 'toolbox'
 
 // Session values this file uses; pane.tsx declares the ones it draws from with the same keys and shapes.
 // Whether the pane is open; the launcher button hides while it is.
-const isPaneOpen = atom({ plugin: 'workshop', key: 'isPaneOpen' } as const, false, { shape: 'pane-open-1' })
+const isPaneOpen = atom({ plugin: 'toolbox', key: 'isPaneOpen' } as const, false, { shape: 'pane-open-1' })
 // Counts finished turns so the pane reads the folders again.
-const turns = atom({ plugin: 'workshop', key: 'turns' } as const, 0, { shape: 'turns-1' })
+const turns = atom({ plugin: 'toolbox', key: 'turns' } as const, 0, { shape: 'turns-1' })
 // Jobs not finished yet; a turn's end clears them.
 // ponytail: cleared at the end of any turn, so a declined mods question shows the button again; track per request if it misfires.
-const pending = atom({ plugin: 'workshop', key: 'pending' } as const, '', { shape: 'pending-1' })
+const pending = atom({ plugin: 'toolbox', key: 'pending' } as const, '', { shape: 'pending-1' })
 // Pinned keys, seeded from the store when the session starts.
-const pins = atom({ plugin: 'workshop', key: 'pins' } as const, '', { shape: 'pins-1' })
+const pins = atom({ plugin: 'toolbox', key: 'pins' } as const, '', { shape: 'pins-1' })
 
 // A function declaration, so the engine follows $ into it.
 async function bump($: Engine, name: string) {
@@ -35,12 +35,12 @@ export const register: Register = (on, options) => {
   const openAtStart = options.openAtStart === 'on'
 
   on('session.start', async ($, e, next) => {
-    await $.command.register({ name: COMMAND, description: 'Open the workshop: every command, skill, mod and hook you can use, and your ideas' })
+    await $.command.register({ name: COMMAND, description: 'Open the toolbox: every command, skill, mod and hook you can use, and your ideas' })
     // Pins live in the store across sessions; the pane draws from the session copy.
     const saved = await $.store.get('pins').catch(() => undefined)
     if (typeof saved === 'string') await update($, pins, () => saved)
     const result = await next(e)
-    if (openAtStart) await $.ui.open({ id: PANE, title: 'Workshop' }).catch(() => undefined)
+    if (openAtStart) await $.ui.open({ id: PANE, title: 'Toolbox' }).catch(() => undefined)
     return result
   })
 
@@ -62,7 +62,7 @@ export const register: Register = (on, options) => {
   })
 
   on('command.run', { command: COMMAND }, async $ => {
-    await $.ui.open({ id: PANE, title: 'Workshop' })
+    await $.ui.open({ id: PANE, title: 'Toolbox' })
     return { text: 'Workshop pane opened.' }
   })
 
@@ -87,9 +87,9 @@ export const register: Register = (on, options) => {
     const { Box, Button, Text } = $.ui.resolve(e)
     const icon = (
       <Box key="workshop-launch" gap={1}>
-        <Button key="open-workshop" label="⚒" onPress={() => void $.ui.open({ id: PANE, title: 'Workshop' })} />
+        <Button key="open-toolbox" label="⚒" onPress={() => void $.ui.open({ id: PANE, title: 'Toolbox' })} />
         <Box display="none" hover={{ display: 'flex' }}>
-          <Text dimColor>Open the workshop</Text>
+          <Text dimColor>Open the toolbox</Text>
         </Box>
       </Box>
     )

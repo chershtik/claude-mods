@@ -1,0 +1,38 @@
+{
+  "name": "toolbox",
+  "version": "6.0.0",
+  "description": "A side pane listing everything you can use in Claude Code: slash commands, skills, mods, hooks and workflows, with what you use most at the top, plus your ideas and drafts.",
+  "types": "./types/index.d.ts",
+  "userConfig": {
+    "workshopDir": {
+      "type": "string",
+      "title": "Workshop folder",
+      "description": "Where your ideas (IDEAS.md) and drafts (mods/, skills/, hooks/, workflows/) live. Empty: CLAUDE_WORKSHOP_DIR, else ~/claude-workshop, created on first use.",
+      "default": ""
+    },
+    "launcher": {
+      "type": "string",
+      "title": "Launcher icon",
+      "description": "on: a ⚒ above the prompt opens the Toolbox. off: open it with /toolbox.",
+      "default": "off",
+      "options": [
+        "off",
+        "on"
+      ]
+    },
+    "openAtStart": {
+      "type": "string",
+      "title": "Open at start",
+      "description": "on: the Toolbox opens when a session starts. off: it stays closed until you run /toolbox.",
+      "default": "off",
+      "options": [
+        "off",
+        "on"
+      ]
+    }
+  },
+  "author": {
+    "name": "Carmel"
+  },
+  "license": "MIT"
+}

@@ -1,6 +1,6 @@
 declare module 'claude-code' {
   interface PluginState {
-    'workshop': {
+    'toolbox': {
       editing: Shaped<string>
       opened: Shaped<string>
       isPaneOpen: Shaped<boolean>
