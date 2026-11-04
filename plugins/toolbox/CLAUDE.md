@@ -95,3 +95,4 @@ The pane copies the app's own sidebar so it reads as part of the app:
 - 2026-11-04: v4.2.0 the ⚒ shares the band above the prompt: what other mods draw there stays, with the icon in front of it.
 - 2026-11-04: v5.0.0 moved into chershtik/claude-mods (plugins/workshop); the command is `/ws`; the ⚒ and opening at start are settings, both off by default (a slash command is the usual way in, and the band is shared).
 - 2026-11-04: v6.0.0 renamed Toolbox: plugin `toolbox`, command `/toolbox`, pane title Toolbox. The workshop folder (ideas and drafts) keeps its name.
+- 2026-11-04: v6.1.0 a command file, commands/toolbox.md, so the desktop's suggestion list shows /toolbox:toolbox (it leaves registered commands out); both names open the pane in the mod's own hook, so the file's text never reaches the model.

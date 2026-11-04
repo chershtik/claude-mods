@@ -333,6 +333,21 @@ test('/toolbox is the command, and Open at start opens the pane when a session s
   expect(opened).toEqual(['toolbox'])
 })
 
+test('both /toolbox and the command file /toolbox:toolbox open the pane without reaching the model', async ($, on) => {
+  const opened: string[] = []
+  machine(on, 's-cmd-names')
+  on('ui.open', (_: unknown, e: { id: string }) => {
+    opened.push(e.id)
+    return { value: { isPlaced: true } }
+  })
+  on('command.run', () => ({ text: 'reached the engine' }))
+  const a = await $.command.run({ command: 'toolbox' })
+  const b = await $.command.run({ command: 'toolbox:toolbox' })
+  expect(opened).toEqual(['toolbox', 'toolbox'])
+  expect(a.text).toBe('Toolbox opened.')
+  expect(b.text).toBe('Toolbox opened.')
+})
+
 test('by default the pane stays closed when a session starts', async ($, on) => {
   const opened: string[] = []
   machine(on, 's-closed')
