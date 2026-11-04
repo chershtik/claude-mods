@@ -61,10 +61,10 @@ export const register: Register = (on, options) => {
     return next(e)
   })
 
-  // Two names, one pane: `/toolbox`, registered here, and `/toolbox:toolbox`, the command file in
+  // Two names, one pane: `/toolbox`, registered here, and `/toolbox:open`, the command file in
   // commands/, which is what the desktop's suggestion list shows (it leaves registered commands out).
   // Either way this answers it, so the file's text never reaches the model.
-  for (const command of [COMMAND, `${COMMAND}:${COMMAND}`]) {
+  for (const command of [COMMAND, `${COMMAND}:open`]) {
     on('command.run', { command }, async $ => {
       await $.ui.open({ id: PANE, title: 'Toolbox' })
       return { text: 'Toolbox opened.' }

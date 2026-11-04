@@ -6,7 +6,7 @@ A side pane for Claude Code that lists everything you can use, so you click inst
 - **Your mods, skills, hooks and workflows**, with what is on in this session marked, and one click to turn each on or off.
 - **Your ideas and drafts**, kept in a workshop folder of your own.
 
-Open it with `/toolbox`.
+Open it with `/toolbox:open` from the suggestions, or type `/toolbox`.
 
 ## Install
 
