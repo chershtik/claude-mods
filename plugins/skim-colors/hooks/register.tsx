@@ -96,7 +96,21 @@ export function toSpans(line: string): Span[] {
   return out
 }
 
+// A conversation keeps the system prompt it started with, so a mod turned on mid-conversation
+// would not reach Claude until the next one. The rule is posted once as a hidden note instead.
+export const LATE_NOTE = 'skim-colors was just turned on. From your next reply, follow this format:'
+
 export const register: Register = on => {
+  on('session.start', async ($, e, next) => {
+    const result = await next(e)
+    if ((await $.session.turns()) === 0) return result
+    // ponytail: matched by text in the transcript; a state flag if reloads ever double-post
+    const rows = await $.session.messages({ as: 'api' })
+    if (rows.some(r => JSON.stringify(r.content).includes(LATE_NOTE))) return result
+    await $.session.append({ message: { type: 'user', content: [{ type: 'text', text: `${LATE_NOTE}\n\n${SECTION.text}` }] } })
+    return result
+  })
+
   on('prompt.compose', async ($, e, next) => {
     const result = await next(e)
     return { sections: [...result.sections, SECTION] }

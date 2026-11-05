@@ -1,6 +1,6 @@
-import { expect, test } from 'claude-code/testing'
+import { expect, mock, test } from 'claude-code/testing'
 
-import { toBlocks, toSpans } from './register'
+import { LATE_NOTE, toBlocks, toSpans } from './register'
 
 const MSG = (text: string) =>
   ({
@@ -94,4 +94,32 @@ test('fences, tables and link lines are left to markdown', () => {
 
 test('spans split key phrases, bold and code', () => {
   expect(toSpans('a ==b== **c** `d`').map(s => s.style)).toEqual(['plain', 'key', 'plain', 'bold', 'plain', 'code'])
+})
+
+test('turned on mid-conversation, the format rule is posted once as a hidden note', async ($, on) => {
+  const session = mock.session(on)
+  on('session.start', (_: unknown, e: { cwd: string }) => ({ cwd: e.cwd }))
+  on('session.turns', () => ({ value: 3 }))
+  on('session.messages', () => ({ value: [] }))
+  await $.session.start({ cwd: 'C:/w', surface: 'desktop', isInteractive: true })
+  const rows = session.appended()
+  expect(rows.length).toBe(1)
+  expect(JSON.stringify(rows[0].message.content)).toContain(LATE_NOTE)
+})
+
+test('a new conversation gets no note, since the rule is already in its prompt', async ($, on) => {
+  const session = mock.session(on)
+  on('session.start', (_: unknown, e: { cwd: string }) => ({ cwd: e.cwd }))
+  on('session.turns', () => ({ value: 0 }))
+  await $.session.start({ cwd: 'C:/w', surface: 'desktop', isInteractive: true })
+  expect(session.appended().length).toBe(0)
+})
+
+test('the note is not posted twice', async ($, on) => {
+  const session = mock.session(on)
+  on('session.start', (_: unknown, e: { cwd: string }) => ({ cwd: e.cwd }))
+  on('session.turns', () => ({ value: 3 }))
+  on('session.messages', () => ({ value: [{ role: 'user', content: [{ type: 'text', text: LATE_NOTE }] }] }))
+  await $.session.start({ cwd: 'C:/w', surface: 'desktop', isInteractive: true })
+  expect(session.appended().length).toBe(0)
 })
