@@ -173,6 +173,13 @@ export const alwaysOnRequest = (item: Item, isOn: boolean): string =>
 export const installRequest = (item: Item): string =>
   `[workshop] Install the workshop skill "${item.name}" for every session: copy ${item.dir} to ${paths.home}/skills/${item.name} (ask before overwriting one that exists), then reply in one line.`
 
+// Where a feature updates from depends on where it came from, so Claude finds out and does it.
+export const updateRequest = (item: Item): string =>
+  `[workshop] Update the ${item.kind} "${item.name}" (${item.dir}) to its latest version from where it came from: an installed plugin with \`claude plugin marketplace update\` then \`claude plugin update ${item.name}\`, a git checkout with git pull (ask first if it has uncommitted changes). If it has no source to update from, say so. Reply in one line, and say whether a new session is needed to see it.`
+
+export const updatePluginRequest = (plugin: string): string =>
+  `[workshop] Update the plugin "${plugin}": run \`claude plugin marketplace update\` then \`claude plugin update ${plugin}\`. If it is not installed from a marketplace, say where it comes from instead. Reply in one line, and say whether a new session is needed to see it.`
+
 export const removeHookRequest = (item: Item): string =>
   `[workshop] Remove this hook from ${paths.home}/settings.json (update-config skill), keep a backup next to it, then reply in one line. Hook: ${item.name}, command: ${item.about}`
 

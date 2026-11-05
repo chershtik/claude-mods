@@ -5,6 +5,7 @@ import type { Engine, RenderInput } from 'claude-code'
 import {
   csv,
   toggleIn,
+  updateRequest,
   addIdeaRequest,
   alwaysOnRequest,
   dropIdea,
@@ -255,6 +256,7 @@ export async function drawPane($: Engine, e: RenderInput<'Pane'>) {
         ? [job(`always-${key}`, item.isAlwaysOn ? 'Stop loading in every session' : 'Load in every session', () => send(alwaysOnRequest(item, !item.isAlwaysOn)))]
         : []),
       ...(item.kind === 'skill' && item.scope === 'workshop' ? [job(`install-${key}`, 'Install for all sessions', () => send(installRequest(item)))] : []),
+      job(`update-${key}`, 'Update', () => send(updateRequest(item))),
       job(`folder-${key}`, 'Open folder', () => openFolder(`folder-${key}`, item.dir)),
       plain(`edit-${key}`, 'Edit…', () => setOpen(`edit:${key}`)),
     ]
@@ -466,10 +468,7 @@ export async function drawPane($: Engine, e: RenderInput<'Pane'>) {
         commands: catalog.commands.filter(c => !items.some(i => i.kind === 'skill' && i.name === c.name)),
         usage: catalog.usage,
         pinned,
-        line,
-        menu,
-        job,
-        plain,
+        line, menu, job, plain, send,
         tinted,
         group,
         isPinned,

@@ -1,7 +1,7 @@
 // The Commands section: every slash command and skill the session can run, from wherever it comes
 // (built-in, plugins, your own, MCP), with what was used most at the top. No $ here: pane.tsx hands in
 // the elements and the actions, so this file only draws.
-import { commandKey, groupCommands, matches } from './catalog'
+import { commandKey, groupCommands, matches, updatePluginRequest } from './catalog'
 import type { Command, CommandGroup, Usage } from './catalog'
 import { TINT } from './look'
 
@@ -28,6 +28,7 @@ export type CommandsKit = {
   isBusy: (key: string) => boolean
   run: (key: string, name: string) => void
   fill: (name: string) => void
+  send: (text: string) => void
 }
 
 const LABEL: Record<CommandGroup, string> = {
@@ -65,6 +66,8 @@ export function drawCommands(k: CommandsKit) {
         k.setOpen('')
         k.togglePin(key)
       }),
+      // Built-in commands update with Claude Code itself, and MCP ones with their server.
+      ...(cmd.source === 'plugin' ? [k.job(`update-${key}`, 'Update', () => k.send(updatePluginRequest(pluginOf(cmd))))] : []),
     ])
     return (
       <Box key={`row-${key}`} flexDirection="column">

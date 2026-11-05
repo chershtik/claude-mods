@@ -97,3 +97,4 @@ The pane copies the app's own sidebar so it reads as part of the app:
 - 2026-11-04: v6.0.0 renamed Toolbox: plugin `toolbox`, command `/toolbox`, pane title Toolbox. The workshop folder (ideas and drafts) keeps its name.
 - 2026-11-04: v6.1.0 a command file, commands/toolbox.md, so the desktop's suggestion list shows it (it leaves registered commands out); both names open the pane in the mod's own hook, so the file's text never reaches the model.
 - 2026-11-04: the command file is `commands/open.md`, listed as `/toolbox:open`: a plugin's files are always `plugin:file`, and `toolbox:toolbox` read badly (owner).
+- 2026-11-05: v6.2.0 Update in every feature menu and in a plugin command's menu. The pane has no plugin-update call, so it asks Claude, which updates from the source (marketplace plugin, git checkout) or says there is none. Built-in and MCP commands get no Update.

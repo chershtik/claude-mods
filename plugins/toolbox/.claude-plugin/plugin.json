@@ -1,6 +1,6 @@
 {
   "name": "toolbox",
-  "version": "6.1.0",
+  "version": "6.2.0",
   "description": "A side pane listing everything you can use in Claude Code: slash commands, skills, mods, hooks and workflows, with what you use most at the top, plus your ideas and drafts.",
   "types": "./types/index.d.ts",
   "userConfig": {

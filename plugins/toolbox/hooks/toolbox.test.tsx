@@ -450,3 +450,33 @@ test('a hook with a very long name still draws: hover scopes stay within 64 char
   expect(await ui.find({ key: `more-hook:global:${long}` })).toBeTruthy()
   await ui.unmount()
 })
+
+test('Update in a feature menu asks Claude to update that feature', async ($, on) => {
+  const sent: string[] = []
+  machine(on, 's-update', { sent })
+  const ui = await $.ui.mount({ ...PANE, surface: 'desktop' })
+  await ui.press({ key: 'fold-Mods' })
+  await ui.press({ key: 'more-mod:workshop:demo' })
+  await ui.press({ key: 'update-mod:workshop:demo' })
+  expect(sent.at(-1)).toContain('Update the mod "demo"')
+  await ui.unmount()
+})
+
+test('a plugin command has Update for its plugin; a built-in one has none', async ($, on) => {
+  const sent: string[] = []
+  machine(on, 's-update-cmd', { sent })
+  on('command.list', () => ({
+    value: [
+      { name: 'deploy', description: 'Ship it', source: 'plugin', plugin: 'ops' },
+      { name: 'help', description: 'Show help', source: 'builtin' },
+    ],
+  }))
+  const ui = await $.ui.mount({ ...PANE, surface: 'desktop' })
+  await ui.press({ key: 'fold-Commands' })
+  await ui.press({ key: 'more-cmd:help' })
+  expect(await ui.find({ key: 'update-cmd:help' })).toBeFalsy()
+  await ui.press({ key: 'more-cmd:deploy' })
+  await ui.press({ key: 'update-cmd:deploy' })
+  expect(sent.at(-1)).toContain('Update the plugin "ops"')
+  await ui.unmount()
+})
