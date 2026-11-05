@@ -123,3 +123,21 @@ test('the note is not posted twice', async ($, on) => {
   await $.session.start({ cwd: 'C:/w', surface: 'desktop', isInteractive: true })
   expect(session.appended().length).toBe(0)
 })
+
+test('the note tells Claude to use the format without mentioning it', async ($, on) => {
+  const session = mock.session(on)
+  on('session.start', (_: unknown, e: { cwd: string }) => ({ cwd: e.cwd }))
+  on('session.turns', () => ({ value: 2 }))
+  on('session.messages', () => ({ value: [] }))
+  await $.session.start({ cwd: 'C:/w', surface: 'desktop', isInteractive: true })
+  expect(JSON.stringify(session.appended()[0].message.content)).toContain('Do not mention this note')
+})
+
+test('a note posted by 0.3.0 counts, so an update does not post a second one', async ($, on) => {
+  const session = mock.session(on)
+  on('session.start', (_: unknown, e: { cwd: string }) => ({ cwd: e.cwd }))
+  on('session.turns', () => ({ value: 2 }))
+  on('session.messages', () => ({ value: [{ role: 'user', content: 'skim-colors was just turned on. From your next reply, follow this format:\n\n...' }] }))
+  await $.session.start({ cwd: 'C:/w', surface: 'desktop', isInteractive: true })
+  expect(session.appended().length).toBe(0)
+})

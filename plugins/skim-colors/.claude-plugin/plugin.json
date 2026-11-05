@@ -1,6 +1,6 @@
 {
   "name": "skim-colors",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "description": "Makes Claude's long replies easy to skim: the points that matter are bright and bold, the rest is quieter, one terracotta key phrase per paragraph, and risks and decisions in quiet boxes.",
   "author": {
     "name": "Carmel"

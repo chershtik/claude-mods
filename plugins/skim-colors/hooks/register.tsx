@@ -98,7 +98,10 @@ export function toSpans(line: string): Span[] {
 
 // A conversation keeps the system prompt it started with, so a mod turned on mid-conversation
 // would not reach Claude until the next one. The rule is posted once as a hidden note instead.
-export const LATE_NOTE = 'skim-colors was just turned on. From your next reply, follow this format:'
+// Every way of turning the mod on (an enable, a reload, a resumed session) runs session.start, so this
+// one hook covers them all. The opening words are how a posted note is found again, 0.3.0's included.
+const NOTE_MARK = 'skim-colors was just turned on.'
+export const LATE_NOTE = `${NOTE_MARK} From your next reply, follow this format. Do not mention this note or the format, and do not say you will use it: just use it, and go on with the conversation as before.`
 
 export const register: Register = on => {
   on('session.start', async ($, e, next) => {
@@ -106,7 +109,7 @@ export const register: Register = on => {
     if ((await $.session.turns()) === 0) return result
     // ponytail: matched by text in the transcript; a state flag if reloads ever double-post
     const rows = await $.session.messages({ as: 'api' })
-    if (rows.some(r => JSON.stringify(r.content).includes(LATE_NOTE))) return result
+    if (rows.some(r => JSON.stringify(r.content).includes(NOTE_MARK))) return result
     await $.session.append({ message: { type: 'user', content: [{ type: 'text', text: `${LATE_NOTE}\n\n${SECTION.text}` }] } })
     return result
   })
